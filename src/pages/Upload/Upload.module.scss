@@ -1,0 +1,55 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    .container {
+        padding: 40px;
+        margin-top: 150px;
+        min-width: 380px;
+        border-radius: 8px;
+        background-color: rgb(28, 33, 47);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
+        .item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .file {
+                background: var(--primary);
+                color: #ffffff;
+            }
+            label {
+                color: #ffffff;
+                min-width: 120px;
+                font-size: 12px;
+            }
+            input {
+                min-height: 32px;
+                font-size: 16px;
+                border-radius: 4px;
+                padding: 6px;
+                width: 100%;
+            }
+            textarea {
+                min-height: 80px;
+                font-size: 16px;
+                border-radius: 4px;
+                padding: 6px;
+                width: 100%;
+            }
+            button {
+                padding: 12px 36px;
+                margin: auto;
+                font-size: 16px;
+                color: #ffffff;
+                background-color: var(--primary);
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+}

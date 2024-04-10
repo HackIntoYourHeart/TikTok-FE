@@ -1,0 +1,51 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    form {
+        padding: 40px;
+        margin-top: 150px;
+        min-width: 380px;
+        border-radius: 8px;
+        background-color: rgb(28, 33, 47);
+        div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            label {
+                color: #ffffff;
+                min-width: 120px;
+                font-size: 12px;
+            }
+            input {
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 4px;
+            }
+        }
+
+        p {
+            color: #ffffff;
+            max-width: 362.4px;
+            height: auto;
+            padding: 10px 20px;
+            text-align: justify;
+            background-color: rgb(150, 8, 43);
+            border-radius: 8px;
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            button {
+                padding: 12px 36px;
+                font-size: 16px;
+                color: #ffffff;
+                background-color: var(--primary);
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+}

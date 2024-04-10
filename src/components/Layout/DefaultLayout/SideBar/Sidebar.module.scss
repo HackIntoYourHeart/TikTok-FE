@@ -1,0 +1,111 @@
+.wrapper {
+    width: 356px;
+    .module1 {
+        margin: 30px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        div {
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: fit-content;
+            .icon {
+                min-width: 40px;
+            }
+        }
+    }
+
+    .following {
+        display: flex;
+        flex-direction: column;
+        .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(22, 24, 35, .75);
+            margin-bottom: 10px;
+        }
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                img {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                }
+                div {
+                    .check {
+                        color: rgb(32, 213, 236);
+                        font-size: 14px;
+                    }
+                    .name {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 4px;
+                        span {
+                            font-size: 16px;
+                            font-weight: bold;
+                            color: rgba(22, 24, 35, .75);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    .suggested {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+        .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(22, 24, 35, .75);
+            margin-bottom: 10px;
+        }
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                img {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                }
+                div {
+                    .check {
+                        color: rgb(32, 213, 236);
+                        font-size: 14px;
+                    }
+                    .name {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 4px;
+                        span {
+                            font-size: 16px;
+                            font-weight: bold;
+                            color: rgba(22, 24, 35, .75);
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+}

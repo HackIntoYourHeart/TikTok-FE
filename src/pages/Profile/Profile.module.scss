@@ -1,0 +1,83 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .avatar {
+        margin-top: 30px;
+        img {
+            margin: 20px;
+            width: 78px;
+            height: 78px;
+            border-radius: 9999px;
+            border: #a903538b 6px solid;
+            object-fit: cover;
+        }
+        margin-bottom: 16px;
+    }
+    .top1 {
+        background-image: url('./1st.png');
+        background-position: center;
+        background-repeat: none;
+        background-size: contain;
+    }
+    .top2 {
+        background-image: url('./2nd.png');
+        background-position: center;
+        background-repeat: none;
+        background-size: contain;
+    }
+    .top3 {
+        background-image: url('./3rd.png');
+        background-position: center;
+        background-repeat: none;
+        background-size: contain;
+    }
+    .action {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .ava {
+            object-fit: cover;
+            width: 100px;
+            height: 100px;
+        }
+        span {
+            text-align: center;
+            font-weight: 600;
+            padding: 12px 24px;
+            font-size: 24px;
+        }
+        .followButton {
+            padding: 12px 36px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .switch {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            button {
+                padding: 12px 36px;
+                font-size: 16px;
+                color: #ffffff;
+                background-color: #040321;
+                border-radius: 4px;
+                text-align: center;
+            }
+        }
+    }
+
+    .videos, .likedVideos {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        video {
+            margin: 10px;
+            width: 208px;
+            height: 365px;
+        }
+    }
+}

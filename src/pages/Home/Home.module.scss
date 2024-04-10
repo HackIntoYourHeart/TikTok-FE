@@ -1,0 +1,95 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    .videoList {
+        .content {
+            padding: 20px 0;
+            border-bottom: solid 1px rgb(193, 193, 193);
+            display: flex;
+            flex-direction: column;
+            .info {
+                display: flex;
+                flex-direction: column;
+                .userInfo {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 10px;
+                    img {
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                    }
+                    .displayName {
+                        color: #000000;
+                        font-size: 14px;
+                        font-weight: bolder;
+                        cursor: pointer;
+                    }
+                }
+                .text {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 10px;
+                    .title {
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+                    .description {
+                        font-size: 12px;
+                    }
+                }
+            }
+            .videoInner {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 16px;
+                video {
+                    width: 321px;
+                    height: 573px;
+                    background-color: black;
+                    border-radius: 8px;
+                }
+                .actions {
+                    display: flex;
+                    flex-direction: row;
+                    height: 573px;
+                    color: black;
+                    gap: 12px;
+                    align-items: center;
+                    .custom {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        div {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 8px;
+                            .icon {
+                                font-size: 24px;
+                                padding: 12px;
+                                background-color: #1816230f;
+                                border-radius: 50%;
+                                cursor: pointer;
+                            }
+
+                            .liked {
+                                color: var(--primary);
+                            }
+
+                            .icon:hover {
+                                color: var(--primary);
+                            }
+
+                            span {
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

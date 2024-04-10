@@ -1,0 +1,53 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    form {
+        position: absolute;
+        padding: 40px;
+        min-width: 380px;
+        border-radius: 8px;
+        background-color: rgb(28, 33, 47);
+        div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            label {
+                color: #ffffff;
+                min-width: 120px;
+                font-size: 12px;
+            }
+            input {
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 4px;
+            }
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            button {
+                padding: 12px 36px;
+                font-size: 16px;
+                color: #ffffff;
+                background-color: var(--primary);
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+
+        .link {
+            color: var(--white);
+            font-size: 14px;
+            span {
+                margin: auto;
+            }
+            a {
+                color: #178eb9;
+                text-decoration: solid;
+            }
+        }
+    }
+}

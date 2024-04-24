@@ -8,18 +8,18 @@ import axios from 'axios';
 import { api } from '~/api/api';
 import clsx from 'clsx';
 import Comment from './Comment/Comment';
+import Video from './Video/Video';
 
 const Home = () => {
     const user = useSelector((state) => state.user);
     const [userVideos, setUserVideos] = useState();
     const [listUser, setListUser] = useState();
     const { videoSearch } = useSelector((state) => state.video);
-    console.log('log: ', videoSearch);
+    console.log('log: ', userVideos);
 
     useEffect(() => {
         if (videoSearch.length > 0) {
             setUserVideos(videoSearch);
-            console.log('videoSearch: ', videoSearch);
         }
     }, [videoSearch]);
 
@@ -86,7 +86,6 @@ const Home = () => {
     const getVideos = async () => {
         let listVideos = [];
         let listUsers = [];
-        console.log('here!!!');
         const fetUserData = async (userId) => {
             try {
                 console.log('here2!!!');
@@ -151,10 +150,7 @@ const Home = () => {
                             <div></div>
                         </div>
                         <div className={styles.videoInner}>
-                            <video controls>
-                                <source src={video.url} type="video/mp4" />
-                            </video>
-
+                            {video?.url && <Video url={video?.url} />}
                             <Comment video={video} likeVideoRequest={likeVideoRequest} data={data} />
                         </div>
                     </div>

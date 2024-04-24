@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { CommentSection } from 'react-comments-section';
-import 'react-comments-section/dist/index.css';
 import { faBookmark, faCancel, faCommentDots, faHeart, faShareNodes, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../Home.module.scss';
@@ -105,7 +103,7 @@ const Comment = ({ likeVideoRequest, video }) => {
                             onClick={() => setShowComments(!showComments)}
                         />
                     </div>
-                    <CommentSection
+                    {/* <CommentSection
                         currentUser={{
                             currentUserId: '01a',
                             currentUserImg: user.picture,
@@ -122,7 +120,7 @@ const Comment = ({ likeVideoRequest, video }) => {
                         currentData={(data) => {
                             console.log('curent data', { ...data, avatarUrl: user.picture });
                         }}
-                    />
+                    /> */}
                 </div>
             )}
         </>

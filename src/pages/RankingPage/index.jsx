@@ -7,7 +7,7 @@ const RankingPage = () => {
 
     const fetData = () => {
         axios
-            .get('http://localhost:4000/v1/rankings?sortBy=yesterdayRank:asc')
+            .get('https://pentestlabs.site/v1/rankings?sortBy=yesterdayRank:asc')
             .then((response) => {
                 const data = response.data;
                 setUsersData(data.results);

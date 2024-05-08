@@ -1,7 +1,7 @@
 import React from 'react';
 import Developing from '~/components/Developing';
 
-const Following = () => {
+const Explore = () => {
     return (
         <div>
             <Developing />
@@ -9,4 +9,4 @@ const Following = () => {
     );
 };
 
-export default Following;
+export default Explore;

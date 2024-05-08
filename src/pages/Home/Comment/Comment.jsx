@@ -74,7 +74,7 @@ const Comment = ({ likeVideoRequest, video }) => {
                             />
                             <span>{video?.listLikes?.length}</span>
                         </div>
-                        <div>
+                        {/* <div>
                             <FontAwesomeIcon
                                 className={styles.icon}
                                 icon={faCommentDots}
@@ -89,7 +89,7 @@ const Comment = ({ likeVideoRequest, video }) => {
                         <div>
                             <FontAwesomeIcon className={styles.icon} icon={faShareNodes} />
                             <span>372</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             )}

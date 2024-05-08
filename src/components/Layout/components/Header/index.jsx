@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '~/slice/userSlice';
 import { getVideos, clearVideos } from '~/slice/videoSlice';
 import axios from 'axios';
+import logo from '~/components/Layout/components/Header/77eb36e6c4b80ce9bb83a3a269664357.png';
 import { api } from '~/api/api';
 
 const cx = classNames.bind(styles);
@@ -127,7 +128,7 @@ const Header = () => {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to="/">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="118" height="42" fill="currentColor" alt="TikTok">
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="118" height="42" fill="currentColor" alt="TikTok">
                         <path
                             fill="#25F4EE"
                             d="M9.875 16.842v-1.119A8.836 8.836 0 0 0 8.7 15.64c-4.797-.006-8.7 3.9-8.7 8.707a8.706 8.706 0 0 0 3.718 7.135A8.675 8.675 0 0 1 1.38 25.55c0-4.737 3.794-8.598 8.495-8.707Z"
@@ -160,7 +161,8 @@ const Header = () => {
                             fill="black"
                             d="M91.58 28.887a3.94 3.94 0 0 1-3.94-3.945 3.94 3.94 0 1 1 7.882 0c0 2.18-1.77 3.945-3.942 3.945Zm0-12.058c-4.477 0-8.106 3.631-8.106 8.113 0 4.482 3.629 8.113 8.106 8.113 4.478 0 8.106-3.631 8.106-8.113 0-4.482-3.628-8.113-8.106-8.113Z"
                         ></path>
-                    </svg>
+                    </svg> */}
+                    <img width={42} height={42} src={logo} alt="logo" />
                 </Link>
                 <HeadlessTippy
                     interactive

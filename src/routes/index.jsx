@@ -9,10 +9,14 @@ import Login from '~/pages/Login';
 import YourAccount from '~/pages/YourAccount';
 import Page404 from '~/pages/404';
 import RankingPage from '~/pages/RankingPage';
+import Explore from '~/pages/Explore';
+import Live from '~/pages/Live';
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/following', component: Following },
+    { path: '/explore', component: Explore },
+    { path: '/live', component: Live },
     { path: '/profile/:userId', component: Profile },
     { path: '/upload', component: Upload, layout: HeaderOnly },
     { path: '/search', component: Search, layout: null },

@@ -81,19 +81,22 @@ const SideBar = () => {
                         <span>Ranking</span>
                     </div>
                 </Link>
-
-                <div>
-                    <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faCompass} />
+                <Link to="/explore">
+                    <div>
+                        <div className={styles.icon}>
+                            <FontAwesomeIcon icon={faCompass} />
+                        </div>
+                        <span>Explore</span>
                     </div>
-                    <span>Explore</span>
-                </div>
-                <div>
-                    <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faVideoCamera} />
+                </Link>
+                <Link to="/live">
+                    <div>
+                        <div className={styles.icon}>
+                            <FontAwesomeIcon icon={faVideoCamera} />
+                        </div>
+                        <span>LIVE</span>
                     </div>
-                    <span>LIVE</span>
-                </div>
+                </Link>
             </div>
             <div className={styles.suggested}>
                 <span className={styles.title}>Suggested accounts</span>

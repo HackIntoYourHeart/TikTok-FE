@@ -118,7 +118,7 @@ const Profile = () => {
                 <span>{userInfo?.displayName}</span>
                 {userId.slice(1) !== user.id && (
                     <button onClick={handleFollow} className={styles.followButton}>
-                        Follow
+                        {user.followingList.includes(userId.slice(1)) ? <span>Follow</span> : <span>Unfollow</span>}
                     </button>
                 )}
                 <div className={styles.switch}>

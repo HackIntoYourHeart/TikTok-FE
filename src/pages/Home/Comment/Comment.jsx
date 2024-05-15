@@ -6,10 +6,18 @@ import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import axios from 'axios';
 import { api } from '~/api/api';
+import Copy from '../Copy/Copy';
 
 const Comment = ({ likeVideoRequest, video }) => {
     const [showComments, setShowComments] = useState(false);
     const user = useSelector((state) => state.user);
+    const [isVisible, setIsVisible] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible);
+        setCopied(false); // Reset copy status when toggling
+    };
 
     const handleDeleteComment = (comment, userId) => {
         if (user.role === 'admin' || userId === user.id) {
@@ -74,7 +82,7 @@ const Comment = ({ likeVideoRequest, video }) => {
                             />
                             <span>{video?.listLikes?.length}</span>
                         </div>
-                        {/* <div>
+                        <div>
                             <FontAwesomeIcon
                                 className={styles.icon}
                                 icon={faCommentDots}
@@ -84,12 +92,13 @@ const Comment = ({ likeVideoRequest, video }) => {
                         </div>
                         <div>
                             <FontAwesomeIcon className={styles.icon} icon={faBookmark} />
-                            <span>1241</span>
                         </div>
-                        <div>
-                            <FontAwesomeIcon className={styles.icon} icon={faShareNodes} />
-                            <span>372</span>
-                        </div> */}
+                        <div style={{ position: 'relative' }}>
+                            <FontAwesomeIcon onClick={toggleVisibility} className={styles.icon} icon={faShareNodes} />
+                            <div style={{ position: 'absolute', bottom: '-90px' }}>
+                                <Copy text={video.url} isVisible={isVisible} setCopied={setCopied} copied={copied} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}

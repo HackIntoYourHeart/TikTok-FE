@@ -56,9 +56,6 @@ const Upload = () => {
                         });
                     }
                 });
-                console.log('Tải lên video:', selectedVideo.name);
-                console.log('Title:', title);
-                console.log('Description:', description);
             } catch (error) {
                 console.error(error);
             }

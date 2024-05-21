@@ -23,7 +23,6 @@ const YourAccount = () => {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        console.log(selectedImage);
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
@@ -51,7 +50,6 @@ const YourAccount = () => {
                         const data = {
                             picture: res.data.imageUrl,
                         };
-                        console.log(data);
                         const resp = await axios({
                             method: 'patch',
                             url: `${api}/users/${user.id}`,
@@ -60,7 +58,6 @@ const YourAccount = () => {
                                 Authorization: `Bearer ${user.accessToken}`,
                             },
                         }).then((reply) => {
-                            console.log("here: ", reply.data);
                             const data = {
                                 id: reply.data.id,
                                 displayName: reply.data.displayName,
@@ -89,7 +86,7 @@ const YourAccount = () => {
                 <div className={styles.wrapper}>
                     <div className={styles.form}>
                         <div className={styles.picture}>
-                            <Link to={`/profile/:${user.id}`}>
+                            <Link to={`/profile/${user.id}`}>
                                 <img src={previewImage ? previewImage : defaultPicture} alt="avatar" />
                             </Link>
                         </div>

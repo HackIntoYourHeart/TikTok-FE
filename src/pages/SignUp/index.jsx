@@ -35,7 +35,6 @@ const SignUp = () => {
                 url: `${api}/auth/register`,
                 data: userData,
             }).then((res) => {
-                console.log(res);
                 if (res.status === 201) {
                     navigate('/login');
                 }

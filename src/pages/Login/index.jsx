@@ -23,8 +23,6 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Xử lý đăng nhập
-        console.log('Đăng nhập với email:', email, 'và password:', password);
         try {
             await axios({
                 method: 'post',

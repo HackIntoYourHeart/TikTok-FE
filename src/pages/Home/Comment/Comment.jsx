@@ -30,7 +30,6 @@ const Comment = ({ likeVideoRequest, video }) => {
             //         },
             //     },
             // );
-            console.log(userId);
         } else {
             console.log("You don't have permission to delete this comment.");
         }

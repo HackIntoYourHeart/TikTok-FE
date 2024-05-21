@@ -15,10 +15,9 @@ const Home = () => {
     const [userVideos, setUserVideos] = useState();
     const [listUser, setListUser] = useState();
     const { videoSearch } = useSelector((state) => state.video);
-    console.log('log: ', userVideos);
 
     useEffect(() => {
-        if (videoSearch.length > 0) {
+        if (videoSearch && videoSearch.length > 0) {
             setUserVideos(videoSearch);
         }
     }, [videoSearch]);
@@ -88,7 +87,7 @@ const Home = () => {
         let listUsers = [];
         const fetUserData = async (userId) => {
             try {
-                console.log('here2!!!');
+  
                 const response = await axios.get(`${api}/users/public/${userId}`);
                 if (response.status === 200) {
                     listUsers.push(response.data);
@@ -136,7 +135,7 @@ const Home = () => {
                         <div className={styles.info}>
                             <span className={styles.displayName}></span>
                             <div className={styles.userInfo}>
-                                <Link to={`/profile/:${video.owner}`}>
+                                <Link to={`/profile/${video.owner}`}>
                                     <img src={video?.user?.picture} alt="avatar" />
                                 </Link>
                                 <Link to={`/profile/${video?.user?.id}`}>

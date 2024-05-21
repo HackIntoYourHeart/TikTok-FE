@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import axios from 'axios';
 import { api } from '~/api/api';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentUser } from '~/slice/userSlice';
 import c from 'clsx';
 const Profile = () => {
     const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
     const { userId } = useParams();
     const [userVideo, setUserVideo] = useState();
     const [userInfo, setUserInfo] = useState();
@@ -29,9 +30,8 @@ const Profile = () => {
     useEffect(() => {
         const fetUserData = async () => {
             try {
-                const response = await axios.get(`${api}/users/public/${userId.slice(1)}`);
+                const response = await axios.get(`${api}/users/public/${userId}`);
                 if (response.status === 200) {
-                    console.log(response.data);
                     setUserInfo(response.data);
                 }
             } catch (error) {
@@ -41,7 +41,7 @@ const Profile = () => {
         };
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${api}/video/get-videos/${userId.slice(1)}`);
+                const response = await axios.get(`${api}/video/get-videos/${userId}`);
                 if (response.status === 200) {
                     setUserVideo(response.data);
                 }
@@ -58,7 +58,6 @@ const Profile = () => {
     }, [userId]);
 
     useEffect(() => {
-        console.log(userInfo?.yesterdayRank);
         setFrameIcon(checkRanking(userInfo?.yesterdayRank));
     }, [userInfo]);
 
@@ -67,7 +66,10 @@ const Profile = () => {
         if (!array.includes(value)) {
             array.push(value);
         } else {
-            isUpdate = false;
+            const index = array.indexOf(value);
+            if (index !== -1) {
+                array.splice(index, 1);
+            }
         }
 
         return isUpdate;
@@ -75,11 +77,11 @@ const Profile = () => {
 
     const handleFollow = async () => {
         try {
-            const result = addIfNotExists(userInfo?.followingList, userId.slice(1));
+            const result = addIfNotExists(userInfo?.followingList, userId);
 
             if (result) {
                 const data = {
-                    followingId: userId.slice(1),
+                    followingId: userId,
                 };
                 await axios({
                     method: 'patch',
@@ -90,7 +92,7 @@ const Profile = () => {
                     },
                 }).then((res) => {
                     if (res.status === 200) {
-                        updateCurrentUser({ followingList: res.data.followingList });
+                        dispatch(updateCurrentUser({ followingList: res.data.followingList }));
                     }
                 });
             }
@@ -116,9 +118,9 @@ const Profile = () => {
             </div>
             <div className={styles.action}>
                 <span>{userInfo?.displayName}</span>
-                {userId.slice(1) !== user.id && (
+                {userId !== user.id && (
                     <button onClick={handleFollow} className={styles.followButton}>
-                        {user.followingList.includes(userId.slice(1)) ? <span>Follow</span> : <span>Unfollow</span>}
+                        {user.followingList.includes(userId) ? <span>Follow</span> : <span>Unfollow</span>}
                     </button>
                 )}
                 <div className={styles.switch}>

@@ -87,7 +87,7 @@ const CommentSection = ({ setShowComments, showComments, videoId }) => {
                     />
                 )}
             </div>
-            <CommentInput setContent={setContent} postComment={postComment} content={content} />
+            <CommentInput setContent={setContent} postComment={postComment} content={content} picture={user.picture} />
         </div>
     );
 };

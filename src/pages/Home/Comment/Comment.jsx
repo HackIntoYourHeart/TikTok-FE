@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { faBookmark, faCancel, faCommentDots, faHeart, faShareNodes, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faCommentDots, faHeart, faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../Home.module.scss';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import axios from 'axios';
 import { api } from '~/api/api';
 import Copy from '../Copy/Copy';
+import CommentSection from './CommentSection/CommentSection';
 
 const Comment = ({ likeVideoRequest, video }) => {
     const [showComments, setShowComments] = useState(false);
@@ -87,7 +88,6 @@ const Comment = ({ likeVideoRequest, video }) => {
                                 icon={faCommentDots}
                                 onClick={() => setShowComments(!showComments)}
                             />
-                            <span>{data.length}</span>
                         </div>
                         <div>
                             <FontAwesomeIcon className={styles.icon} icon={faBookmark} />
@@ -103,32 +103,7 @@ const Comment = ({ likeVideoRequest, video }) => {
             )}
             {showComments && (
                 <div>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '30px' }}>
-                        <FontAwesomeIcon
-                            className={styles.icon}
-                            style={{ height: '20px' }}
-                            icon={faXmark}
-                            onClick={() => setShowComments(!showComments)}
-                        />
-                    </div>
-                    {/* <CommentSection
-                        currentUser={{
-                            currentUserId: '01a',
-                            currentUserImg: user.picture,
-                            currentUserProfile: 'https://www.linkedin.com/in/riya-negi-8879631a9/',
-                            currentUserFullName: user.displayName,
-                        }}
-                        onDeleteAction={(commentId, userId) => handleDeleteComment(commentId, userId)}
-                        commentData={data}
-                        logIn={{
-                            loginLink: 'http://localhost:3001/',
-                            signupLink: 'http://localhost:3001/',
-                        }}
-                        onSubmitAction={(data) => console.log('check submit, ', data)}
-                        currentData={(data) => {
-                            console.log('curent data', { ...data, avatarUrl: user.picture });
-                        }}
-                    /> */}
+                    <CommentSection setShowComments={setShowComments} showComments={showComments} videoId={video?._id} />
                 </div>
             )}
         </>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { api } from '~/api/api';
@@ -48,12 +48,9 @@ const Login = () => {
                     dispatch(login(user));
                     navigate('/');
                 }
-                else {
-                    toast.error('Login failed!');
-                }
             });
         } catch (error) {
-            throw error.response.data; // Ném lỗi nếu có lỗi từ phản hồi
+            toast.error('Login failed!');
         }
     };
 
@@ -81,7 +78,6 @@ const Login = () => {
                     </span>
                 </div>
             </form>
-            <ToastContainer />
         </div>
     );
 };

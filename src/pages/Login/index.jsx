@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { api } from '~/api/api';
 import { useDispatch } from 'react-redux';
@@ -42,8 +44,12 @@ const Login = () => {
                         likeList: res.data.user.likeList,
                         role: res.data.user.role,
                     };
+                    toast.success('Login successfully!');
                     dispatch(login(user));
                     navigate('/');
+                }
+                else {
+                    toast.error('Login failed!');
                 }
             });
         } catch (error) {
@@ -75,6 +81,7 @@ const Login = () => {
                     </span>
                 </div>
             </form>
+            <ToastContainer />
         </div>
     );
 };

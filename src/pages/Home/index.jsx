@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './Home.module.scss';
 import { faBookmark, faCommentDots, faHeart, faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,39 @@ const Home = () => {
     const [userVideos, setUserVideos] = useState();
     const [listUser, setListUser] = useState();
     const { videoSearch } = useSelector((state) => state.video);
+    const [playingIndex, setPlayingIndex] = useState(null);
+    const videoRefs = useRef([]);
+
+    useEffect(() => {
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5,
+        };
+
+        const handlePlay = (index) => {
+            setPlayingIndex(index);
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const index = videoRefs.current.indexOf(entry.target);
+                if (entry.isIntersecting && index !== -1) {
+                    handlePlay(index);
+                }
+            });
+        }, options);
+
+        videoRefs.current.forEach((video) => {
+            if (video) observer.observe(video);
+        });
+
+        return () => {
+            videoRefs.current.forEach((video) => {
+                if (video) observer.unobserve(video);
+            });
+        };
+    }, [userVideos]);
 
     useEffect(() => {
         if (videoSearch && videoSearch.length > 0) {
@@ -87,7 +120,6 @@ const Home = () => {
         let listUsers = [];
         const fetUserData = async (userId) => {
             try {
-  
                 const response = await axios.get(`${api}/users/public/${userId}`);
                 if (response.status === 200) {
                     listUsers.push(response.data);
@@ -130,7 +162,7 @@ const Home = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.videoList}>
-                {userVideos?.map((video) => (
+                {userVideos?.map((video, index) => (
                     <div className={styles.content}>
                         <div className={styles.info}>
                             <span className={styles.displayName}></span>
@@ -148,7 +180,7 @@ const Home = () => {
                             </div>
                             <div></div>
                         </div>
-                        <div className={styles.videoInner}>
+                        <div className={styles.videoInner} ref={(el) => (videoRefs.current[index] = el)}>
                             {video?.url && <Video url={video?.url} />}
                             <Comment video={video} likeVideoRequest={likeVideoRequest} data={data} />
                         </div>

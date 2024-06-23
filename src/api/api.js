@@ -1,1 +1,1 @@
-export const api = "https://pentestlabs.site/v1"
+export const api = "https://pentestlabs.site/v1";

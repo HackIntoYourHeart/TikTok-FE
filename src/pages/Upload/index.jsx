@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Upload.module.scss';
 import Page404 from '../404';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { api } from '~/api/api';
 import { toast } from 'react-toastify';
@@ -13,6 +14,7 @@ const Upload = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     const handleVideoChange = (e) => {
         const file = e.target.files[0];
@@ -59,6 +61,7 @@ const Upload = () => {
                             },
                         });
                         setLoading(false);
+                        navigate('/');
                         toast.success('Upload video successfully!');
                     }
                 });

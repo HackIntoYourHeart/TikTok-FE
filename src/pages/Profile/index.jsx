@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import axios from 'axios';
+import QRCode from 'react-qr-code';
 import { api } from '~/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentUser } from '~/slice/userSlice';
@@ -13,6 +14,9 @@ const Profile = () => {
     const [userVideo, setUserVideo] = useState();
     const [userInfo, setUserInfo] = useState();
     const [frameIcon, setFrameIcon] = useState();
+
+    const location = useLocation();
+    const currentURL = `${window.location.protocol}//${window.location.host}${location.pathname}`;
 
     const checkRanking = (rank) => {
         switch (rank) {
@@ -110,7 +114,7 @@ const Profile = () => {
         following: ['823y78y8wey', '823y78y8wey', '823y78y8wey'],
     };
 
-    const [isVideoList, setToggleTab] = useState(true);
+    const [tabnumber, setToggleTab] = useState(1);
     return (
         <div className={styles.wrapper}>
             <div className={c(styles.avatar, frameIcon)}>
@@ -124,11 +128,11 @@ const Profile = () => {
                     </button>
                 )}
                 <div className={styles.switch}>
-                    <button onClick={() => setToggleTab(true)}>Videos</button>
-                    <button onClick={() => setToggleTab(false)}>Liked</button>
+                    <button onClick={() => setToggleTab(1)}>Videos</button>
+                    <button onClick={() => setToggleTab(2)}>Share</button>
                 </div>
             </div>
-            {isVideoList ? (
+            {tabnumber === 1 && (
                 <div className={styles.videos}>
                     {userVideo?.map((video) => (
                         <video controls>
@@ -136,8 +140,21 @@ const Profile = () => {
                         </video>
                     ))}
                 </div>
-            ) : (
-                <div className={styles.likedVideos}>Liked</div>
+            )}
+            {tabnumber === 2 && (
+                <div className={styles.likedVideos}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', justifyContent: 'center' }}>
+                        <span style={{ fontSize: '20px' }}>Share profile by QR Code</span>
+                        <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+                            <QRCode
+                                size={256}
+                                style={{ height: 'auto', maxWidth: '100%', width: '200px' }}
+                                value={currentURL}
+                                viewBox={`0 0 256 256`}
+                            />
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

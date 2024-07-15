@@ -163,6 +163,7 @@ const Header = () => {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to="/">
+                    y
                     <img width={42} height={42} src={logo} alt="logo" />
                 </Link>
                 <HeadlessTippy
@@ -197,7 +198,26 @@ const Header = () => {
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
                         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-                        <button className={cx('search-btn')} onClick={handleSearch}>
+                        <button
+                            className={cx('search-btn')}
+                            onClick={() => {
+                                axios
+                                    .get(`${api}/search-videos?keyword=${searchTerm}`, {
+                                        headers: {
+                                            Authorization: `Bearer ${user.accessToken}`,
+                                        },
+                                    })
+                                    .then((response) => {
+                                        if (response.status === 200) {
+                                            response.data.length > 0 && dispatch(getVideos(response.data));
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        // Xử lý lỗi ở đây
+                                        console.error(error);
+                                    });
+                            }}
+                        >
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </div>

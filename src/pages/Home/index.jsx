@@ -168,7 +168,13 @@ const Home = () => {
                             <span className={styles.displayName}></span>
                             <div className={styles.userInfo}>
                                 <Link to={`/profile/${video.owner}`}>
-                                    <img src={video?.user?.picture} alt="avatar" />
+                                    <img
+                                        src={
+                                            video?.user?.picture ??
+                                            'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg'
+                                        }
+                                        alt="avatar"
+                                    />
                                 </Link>
                                 <Link to={`/profile/${video?.user?.id}`}>
                                     <span className={styles.displayName}>{video?.user?.displayName}</span>

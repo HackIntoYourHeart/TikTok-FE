@@ -64,7 +64,9 @@ const MENU_ITEMS = [
 ];
 
 const Header = () => {
-    const [searchResult, setSearchResult] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
+    const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user);
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef(null);
@@ -72,7 +74,54 @@ const Header = () => {
     const defaultPicture =
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png';
     const navigate = useNavigate();
-    // Handle logic
+
+    useEffect(() => {
+        if (!isFocused) {
+            dispatch(clearVideos());
+        }
+    }, [isFocused, dispatch]);
+
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setSearchResult([]);
+            return;
+        }
+
+        const delayDebounceFn = setTimeout(() => {
+            handleSearch();
+        }, 300);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchTerm]);
+
+    const handleSearch = async () => {
+        if (!searchTerm.trim()) {
+            setSearchResult([]);
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await axios.get(`${api}/users/search-users`, {
+                params: { displayName: searchTerm },
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`,
+                },
+            });
+            setSearchResult(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+        setLoading(false);
+    };
+
+    const handleFocus = () => {
+        setIsFocused(true);
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+    };
+
     const handleMenuChange = (menuItem) => {
         switch (menuItem.title) {
             case 'Log out':
@@ -83,20 +132,6 @@ const Header = () => {
                 break;
             default:
         }
-    };
-
-    useEffect(() => {
-        if (!isFocused) {
-            dispatch(clearVideos());
-        }
-    }, [isFocused]);
-
-    const handleFocus = () => {
-        setIsFocused(true);
-    };
-
-    const handleBlur = () => {
-        setIsFocused(false);
     };
 
     const userMenu = [
@@ -128,7 +163,7 @@ const Header = () => {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to="/">
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="118" height="42" fill="currentColor" alt="TikTok">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="118" height="42" fill="currentColor" alt="TikTok">
                         <path
                             fill="#25F4EE"
                             d="M9.875 16.842v-1.119A8.836 8.836 0 0 0 8.7 15.64c-4.797-.006-8.7 3.9-8.7 8.707a8.706 8.706 0 0 0 3.718 7.135A8.675 8.675 0 0 1 1.38 25.55c0-4.737 3.794-8.598 8.495-8.707Z"
@@ -161,62 +196,42 @@ const Header = () => {
                             fill="black"
                             d="M91.58 28.887a3.94 3.94 0 0 1-3.94-3.945 3.94 3.94 0 1 1 7.882 0c0 2.18-1.77 3.945-3.942 3.945Zm0-12.058c-4.477 0-8.106 3.631-8.106 8.113 0 4.482 3.629 8.113 8.106 8.113 4.478 0 8.106-3.631 8.106-8.113 0-4.482-3.628-8.113-8.106-8.113Z"
                         ></path>
-                    </svg> */}
+                    </svg>
                     <img width={42} height={42} src={logo} alt="logo" />
                 </Link>
                 <HeadlessTippy
                     interactive
-                    visible={searchResult.length > 0}
-                    render={(attrs) => (
-                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                            {/* <PopperWrapper>
-                                <h4 className={cx('search-title')}>Accounts</h4>
-                                <AccountItem />
-                                <AccountItem />
-                                <AccountItem />
-                                <AccountItem />
-                            </PopperWrapper> */}
-                        </div>
-                    )}
+                    visible={isFocused || searchResult.length > 0}
+                    render={(attrs) =>
+                        searchResult?.length > 0 && (
+                            <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                                <PopperWrapper>
+                                    {searchResult.map((user) => (
+                                        <Link to={`/profile/${user.id}`} onClick={() => setSearchResult([])}>
+                                            <div>
+                                                <AccountItem key={user.id} user={user} />
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </PopperWrapper>
+                            </div>
+                        )
+                    }
                 >
                     <div className={cx('search')}>
                         <input
-                            placeholder="Search accounts and videos"
-                            onChange={(e) => {
-                                setSearchResult(e.target.value);
-                                if (e.target.value.length === 0) {
-                                    dispatch(clearVideos());
-                                }
-                            }}
+                            placeholder="Search accounts"
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
                             spellCheck={false}
+                            value={searchTerm}
                         />
-                        <button className={cx('clear')}>
+                        <button className={cx('clear')} onClick={() => setSearchTerm('')}>
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
-                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
-
-                        <button
-                            className={cx('search-btn')}
-                            onClick={() => {
-                                axios
-                                    .get(`${api}/search-videos?keyword=${searchResult}`, {
-                                        headers: {
-                                            Authorization: `Bearer ${user.accessToken}`,
-                                        },
-                                    })
-                                    .then((response) => {
-                                        if (response.status === 200) {
-                                            response.data.length > 0 && dispatch(getVideos(response.data));
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        // Xử lý lỗi ở đây
-                                        console.error(error);
-                                    });
-                            }}
-                        >
+                        {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+                        <button className={cx('search-btn')} onClick={handleSearch}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </div>

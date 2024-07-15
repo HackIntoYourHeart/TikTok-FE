@@ -163,7 +163,6 @@ const Header = () => {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to="/">
-                    y
                     <img width={42} height={42} src={logo} alt="logo" />
                 </Link>
                 <HeadlessTippy

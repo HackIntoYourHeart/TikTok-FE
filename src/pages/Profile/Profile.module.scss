@@ -78,6 +78,7 @@
         display: flex;
         flex-wrap: wrap;
         video {
+            z-index: 0;
             margin: 10px;
             width: 208px;
             height: 365px;

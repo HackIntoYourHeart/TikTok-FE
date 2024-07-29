@@ -1,9 +1,11 @@
 .wrapper {
     display: flex;
+    align-items: center;
     justify-content: center;
+    width: 100vw;
+    height: 100vh;
     form {
         padding: 40px;
-        margin-top: 150px;
         min-width: 380px;
         border-radius: 8px;
         background-color: rgb(28, 33, 47);

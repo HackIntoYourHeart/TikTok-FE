@@ -4,8 +4,7 @@ import { faBookmark, faCommentDots, faHeart, faShareNodes } from '@fortawesome/f
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { api } from '~/api/api';
+import api from '~/api/api';
 import clsx from 'clsx';
 import Comment from './Comment/Comment';
 import Video from './Video/Video';
@@ -94,15 +93,10 @@ const Home = () => {
     ];
 
     const likeVideoRequest = async (id, userId) => {
-        axios
+        api
             .patch(
-                `${api}/video/req-reaction/${id}`,
+                `/video/req-reaction/${id}`,
                 { userId },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.accessToken}`,
-                    },
-                },
             )
             .then((response) => {
                 if (response.status === 200) {
@@ -120,7 +114,7 @@ const Home = () => {
         let listUsers = [];
         const fetUserData = async (userId) => {
             try {
-                const response = await axios.get(`${api}/users/public/${userId}`);
+                const response = await api.get(`/users/public/${userId}`);
                 if (response.status === 200) {
                     listUsers.push(response.data);
                     setListUser(listUsers);
@@ -132,7 +126,7 @@ const Home = () => {
         };
         const fetchData = async (userId) => {
             try {
-                const response = await axios.get(`${api}/video/get-videos/${userId}`);
+                const response = await api.get(`/video/get-videos/${userId}`);
                 if (response.status === 200) {
                     listVideos = [...listVideos, ...response.data];
                 }

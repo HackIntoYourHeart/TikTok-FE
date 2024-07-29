@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './SignUp.module.scss';
-import { api } from '~/api/api';
-import axios from 'axios';
+import api from '~/api/api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '~/slice/userSlice';
@@ -30,9 +29,9 @@ const SignUp = () => {
 
     const registerUser = async (userData) => {
         try {
-            await axios({
+            await api({
                 method: 'post',
-                url: `${api}/auth/register`,
+                url: `/auth/register`,
                 data: userData,
             }).then((res) => {
                 if (res.status === 201) {

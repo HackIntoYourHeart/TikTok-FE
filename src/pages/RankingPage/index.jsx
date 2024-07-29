@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './Ranking.scss';
-import axios from 'axios';
+import api from '~/api/api';
 
 const RankingPage = () => {
     const [usersData, setUsersData] = useState();
 
     const fetData = () => {
-        axios
-            .get('https://pentestlabs.site/v1/rankings?sortBy=yesterdayRank:asc')
+        api
+            .get('/rankings?sortBy=yesterdayRank:asc')
             .then((response) => {
                 const data = response.data;
                 setUsersData(data.results);

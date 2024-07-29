@@ -3,8 +3,7 @@ import styles from './Upload.module.scss';
 import Page404 from '../404';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { api } from '~/api/api';
+import api from '~/api/api';
 import { toast } from 'react-toastify';
 import LoadingWrapper from '~/components/Loading/LoadingWrapper';
 
@@ -37,13 +36,10 @@ const Upload = () => {
                 const formData = new FormData();
                 formData.append('video', selectedVideo);
                 // Gọi API hoặc thực hiện các thao tác cần thiết tại đây
-                await axios({
+                await api({
                     method: 'post',
-                    url: `${api}/upload/upload-video`,
+                    url: `/upload/upload-video`,
                     data: formData,
-                    headers: {
-                        Authorization: `Bearer ${user.accessToken}`,
-                    },
                 }).then(async (res) => {
                     const data = {
                         title: title,
@@ -52,13 +48,9 @@ const Upload = () => {
                         owner: user.id,
                     };
                     if (res.status === 200) {
-                        await axios({
-                            method: 'post',
-                            url: `${api}/video`,
+                        await api.post({
+                            url: `/video`,
                             data: data,
-                            headers: {
-                                Authorization: `Bearer ${user.accessToken}`,
-                            },
                         });
                         setLoading(false);
                         navigate('/');

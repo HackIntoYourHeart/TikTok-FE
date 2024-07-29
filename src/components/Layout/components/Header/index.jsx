@@ -27,9 +27,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '~/slice/userSlice';
 import { getVideos, clearVideos } from '~/slice/videoSlice';
-import axios from 'axios';
 import logo from '~/components/Layout/components/Header/77eb36e6c4b80ce9bb83a3a269664357.png';
-import { api } from '~/api/api';
+import api from '~/api/api';
 
 const cx = classNames.bind(styles);
 const MENU_ITEMS = [
@@ -101,11 +100,8 @@ const Header = () => {
         }
         setLoading(true);
         try {
-            const response = await axios.get(`${api}/users/search-users`, {
+            const response = await api.get(`/users/search-users`, {
                 params: { displayName: searchTerm },
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`,
-                },
             });
             setSearchResult(response.data);
         } catch (error) {
@@ -200,12 +196,7 @@ const Header = () => {
                         <button
                             className={cx('search-btn')}
                             onClick={() => {
-                                axios
-                                    .get(`${api}/search-videos?keyword=${searchTerm}`, {
-                                        headers: {
-                                            Authorization: `Bearer ${user.accessToken}`,
-                                        },
-                                    })
+                                api.get(`/search-videos?keyword=${searchTerm}`)
                                     .then((response) => {
                                         if (response.status === 200) {
                                             response.data.length > 0 && dispatch(getVideos(response.data));

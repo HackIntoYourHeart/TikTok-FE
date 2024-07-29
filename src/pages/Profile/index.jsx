@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styles from './Profile.module.scss';
-import axios from 'axios';
 import QRCode from 'react-qr-code';
-import { api } from '~/api/api';
+import api from '~/api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentUser } from '~/slice/userSlice';
 import c from 'clsx';
@@ -34,7 +33,7 @@ const Profile = () => {
     useEffect(() => {
         const fetUserData = async () => {
             try {
-                const response = await axios.get(`${api}/users/public/${userId}`);
+                const response = await api.get(`/users/public/${userId}`);
                 if (response.status === 200) {
                     setUserInfo(response.data);
                 }
@@ -45,7 +44,7 @@ const Profile = () => {
         };
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${api}/video/get-videos/${userId}`);
+                const response = await api.get(`/video/get-videos/${userId}`);
                 if (response.status === 200) {
                     setUserVideo(response.data);
                 }
@@ -87,13 +86,10 @@ const Profile = () => {
                 const data = {
                     followingId: userId,
                 };
-                await axios({
+                await api({
                     method: 'patch',
-                    url: `${api}/users/following/${user.id}`,
+                    url: `/users/following/${user.id}`,
                     data: data,
-                    headers: {
-                        Authorization: `Bearer ${user.accessToken}`,
-                    },
                 }).then((res) => {
                     if (res.status === 200) {
                         dispatch(updateCurrentUser({ followingList: res.data.followingList }));

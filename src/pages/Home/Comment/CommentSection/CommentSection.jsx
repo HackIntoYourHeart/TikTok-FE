@@ -4,9 +4,8 @@ import styles from './CommentSection.module.scss';
 import { faXmark, faAnglesDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CommentInput from '../CommentInput/CommentInput';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { api } from '~/api/api';
+import api from '~/api/api';
 
 const CommentSection = ({ setShowComments, showComments, videoId }) => {
     const user = useSelector((state) => state.user);
@@ -16,12 +15,9 @@ const CommentSection = ({ setShowComments, showComments, videoId }) => {
     const [totalPage, setTotalPage] = useState();
     const [content, setContent] = useState('');
     const getComments = async (pageNew) => {
-        await axios({
+        await api({
             method: 'get',
-            url: `${api}/get-comments-by-video?video=${videoId}&page=${pageNew ?? page}&sortBy=_id:desc`,
-            headers: {
-                Authorization: `Bearer ${user.accessToken}`,
-            },
+            url: `/get-comments-by-video?video=${videoId}&page=${pageNew ?? page}&sortBy=_id:desc`,
         }).then((res) => {
             if (res.status === 200) {
                 const data = comments ?? [];
@@ -42,12 +38,9 @@ const CommentSection = ({ setShowComments, showComments, videoId }) => {
 
     const postComment = async (e) => {
         if (content && e.key === 'Enter') {
-            await axios({
+            await api({
                 method: 'post',
-                url: `${api}/comments`,
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`,
-                },
+                url: `/comments`,
                 data: {
                     video: videoId,
                     content,

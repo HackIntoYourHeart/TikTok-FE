@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './YourAccount.module.scss';
 import Page404 from '../404';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import { api } from '~/api/api';
+import api from '~/api/api';
 import { updateCurrentUser } from '~/slice/userSlice';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getNewAccessToken } from '~/api/token.api';
 
 const YourAccount = () => {
     const defaultPicture =
@@ -16,9 +17,7 @@ const YourAccount = () => {
     const dispatch = useDispatch();
     const [previewImage, setPreviewImage] = useState(null);
     const [isEditDisplayName, setEditDisplayName] = useState(false);
-    const [isChangeUsername, setChangeUsername] = useState(false);
     const [displayName, setDisplayName] = useState('');
-    const [username, setUsername] = useState('');
     const [selectedImage, setSelectedImage] = useState();
 
     const handleFileChange = (event) => {
@@ -38,26 +37,24 @@ const YourAccount = () => {
             try {
                 const formData = new FormData();
                 formData.append('image', selectedImage);
-                const response = await axios({
+                const response = await api({
                     method: 'post',
-                    url: `${api}/upload/upload-image`,
+                    url: `/upload/upload-image`,
                     data: formData,
-                    headers: {
-                        Authorization: `Bearer ${user.accessToken}`,
-                    },
                 }).then(async (res) => {
                     if (res.status === 200) {
                         const data = {
                             picture: res.data.imageUrl,
+                            displayName: displayName ? displayName : undefined,
                         };
-                        const resp = await axios({
+                        await api({
                             method: 'patch',
-                            url: `${api}/users/${user.id}`,
+                            url: `/users/${user.id}`,
                             data: data,
-                            headers: {
-                                Authorization: `Bearer ${user.accessToken}`,
-                            },
                         }).then((reply) => {
+                            if (reply.code === 400) {
+                                toast.error(reply.message);
+                            }
                             const data = {
                                 id: reply.data.id,
                                 displayName: reply.data.displayName,
@@ -66,17 +63,49 @@ const YourAccount = () => {
                             };
                             dispatch(updateCurrentUser(data));
                         });
-                        if (resp.status === 200) {
-                            console.log(response.data);
-                        }
                     }
                 });
-
-                if (response.status === 200) {
-                    console.log(response.data);
+                if (response.code === 400) {
+                    toast.error(response.message);
                 }
             } catch (error) {
-                console.error('Error uploading image:', error);
+                if (error.response.data.code === 400) {
+                    toast.error('Display name is not blank');
+                }
+
+                if (error.response.data.code === 401) {
+                    getNewAccessToken(user.refreshToken);
+                }
+            }
+        } else {
+            try {
+                await api({
+                    method: 'patch',
+                    url: `/users/${user.id}`,
+                    data: {
+                        displayName: displayName ? displayName : undefined,
+                    },
+                }).then((reply) => {
+                    console.log(reply);
+                    if (reply.status === 400) {
+                        toast.error(reply.message);
+                    }
+                    const data = {
+                        id: reply.data.id,
+                        displayName: reply.data.displayName,
+                        username: reply.data.username,
+                        picture: reply.data.picture,
+                    };
+                    dispatch(updateCurrentUser(data));
+                });
+            } catch (error) {
+                if (error.response.data.code === 400) {
+                    toast.error('Display name is not blank');
+                }
+
+                if (error.response.data.code === 401) {
+                    getNewAccessToken(user.refreshToken);
+                }
             }
         }
     };
@@ -115,23 +144,6 @@ const YourAccount = () => {
                             <div>
                                 <span>Display Name: </span> {user.displayName}{' '}
                                 <FontAwesomeIcon onClick={() => setEditDisplayName(true)} icon={faPen} />
-                            </div>
-                        )}
-                        {isChangeUsername ? (
-                            <div>
-                                <label htmlFor="username">Username:</label>
-                                <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    autoComplete="off"
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                            </div>
-                        ) : (
-                            <div>
-                                <span>Username: </span> {user.username}{' '}
-                                <FontAwesomeIcon onClick={() => setChangeUsername(true)} icon={faPen} />
                             </div>
                         )}
                         <div className={styles.button}>

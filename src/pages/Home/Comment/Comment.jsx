@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../Home.module.scss';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import axios from 'axios';
-import { api } from '~/api/api';
 import Copy from '../Copy/Copy';
 import CommentSection from './CommentSection/CommentSection';
 
@@ -18,22 +16,6 @@ const Comment = ({ likeVideoRequest, video }) => {
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
         setCopied(false); // Reset copy status when toggling
-    };
-
-    const handleDeleteComment = (comment, userId) => {
-        if (user.role === 'admin' || userId === user.id) {
-            // axios.delete(
-            //     `${api}/comments/${comment.comIdToDelete}`,
-            //     { userId },
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${user.accessToken}`,
-            //         },
-            //     },
-            // );
-        } else {
-            console.log("You don't have permission to delete this comment.");
-        }
     };
 
     console.log(user);

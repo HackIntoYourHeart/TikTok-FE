@@ -13,6 +13,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@tippyjs/react": "^4.2.6",
+    "agora-rtc-react": "^2.2.0",
+    "agora-rtc-sdk-ng": "^4.21.0",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "clsx": "^2.0.0",

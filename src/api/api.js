@@ -1,5 +1,3 @@
-// export const api = "https://pentestlabs.site/v1";
-
 import axios from 'axios';
 
 const api = axios.create({

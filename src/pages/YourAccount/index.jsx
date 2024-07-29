@@ -8,7 +8,6 @@ import api from '~/api/api';
 import { updateCurrentUser } from '~/slice/userSlice';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getNewAccessToken } from '~/api/token.api';
 
 const YourAccount = () => {
     const defaultPicture =
@@ -72,10 +71,6 @@ const YourAccount = () => {
                 if (error.response.data.code === 400) {
                     toast.error('Display name is not blank');
                 }
-
-                if (error.response.data.code === 401) {
-                    getNewAccessToken(user.refreshToken);
-                }
             }
         } else {
             try {
@@ -101,10 +96,6 @@ const YourAccount = () => {
             } catch (error) {
                 if (error.response.data.code === 400) {
                     toast.error('Display name is not blank');
-                }
-
-                if (error.response.data.code === 401) {
-                    getNewAccessToken(user.refreshToken);
                 }
             }
         }

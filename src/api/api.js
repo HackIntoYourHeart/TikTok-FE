@@ -22,8 +22,8 @@ api.interceptors.request.use(
 
 const refreshToken = async () => {
     try {
-        const response = await axios.post('https://pentestlabs.site/v1/refresh-token', {
-            token: localStorage.getItem('refreshToken'),
+        const response = await axios.post('https://pentestlabs.site/v1/auth/refresh-tokens', {
+            refreshToken: localStorage.getItem('refreshToken'),
         });
         localStorage.setItem('accessToken', response.data.accessToken);
         return response.data.accessToken;

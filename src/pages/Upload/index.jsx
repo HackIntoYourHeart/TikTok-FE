@@ -52,7 +52,7 @@ const Upload = () => {
 
                     const videoResponse = await api.post('/video', data);
 
-                    if (videoResponse.status === 200) {
+                    if (videoResponse.status === 201) {
                         toast.success('Upload video successfully!');
                         navigate('/');
                     }

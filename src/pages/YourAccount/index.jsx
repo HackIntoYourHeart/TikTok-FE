@@ -17,7 +17,7 @@ const YourAccount = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [isEditDisplayName, setEditDisplayName] = useState(false);
     const [displayName, setDisplayName] = useState('');
-    const [selectedImage, setSelectedImage] = useState();
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -36,70 +36,72 @@ const YourAccount = () => {
             try {
                 const formData = new FormData();
                 formData.append('image', selectedImage);
-                const response = await api({
-                    method: 'post',
-                    url: `/upload/upload-image`,
-                    data: formData,
-                }).then(async (res) => {
-                    if (res.status === 200) {
-                        const data = {
-                            picture: res.data.imageUrl,
-                            displayName: displayName ? displayName : undefined,
-                        };
-                        await api({
-                            method: 'patch',
-                            url: `/users/${user.id}`,
-                            data: data,
-                        }).then((reply) => {
-                            if (reply.code === 400) {
-                                toast.error(reply.message);
-                            }
-                            const data = {
-                                id: reply.data.id,
-                                displayName: reply.data.displayName,
-                                username: reply.data.username,
-                                picture: reply.data.picture,
-                            };
-                            dispatch(updateCurrentUser(data));
-                        });
+                
+                const uploadResponse = await api.post('/upload/upload-image', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
-                if (response.code === 400) {
-                    toast.error(response.message);
+
+                if (uploadResponse.status === 200) {
+                    const data = {
+                        picture: uploadResponse.data.imageUrl,
+                        displayName: displayName ? displayName : undefined,
+                    };
+
+                    const updateResponse = await api.patch(`/users/${user.id}`, data);
+
+                    if (updateResponse.status === 200) {
+                        const updatedUser = {
+                            id: updateResponse.data.id,
+                            displayName: updateResponse.data.displayName,
+                            username: updateResponse.data.username,
+                            picture: updateResponse.data.picture,
+                        };
+                        dispatch(updateCurrentUser(updatedUser));
+                        toast.success('Profile updated successfully!');
+                    } else {
+                        toast.error('Failed to update profile');
+                    }
+                } else {
+                    toast.error('Failed to upload image');
                 }
             } catch (error) {
-                if (error.response.data.code === 400) {
+                if (error.response && error.response.data && error.response.data.code === 400) {
                     toast.error('Display name is not blank');
+                } else {
+                    toast.error('An error occurred');
                 }
             }
         } else {
             try {
-                await api({
-                    method: 'patch',
-                    url: `/users/${user.id}`,
-                    data: {
-                        displayName: displayName ? displayName : undefined,
-                    },
-                }).then((reply) => {
-                    console.log(reply);
-                    if (reply.status === 400) {
-                        toast.error(reply.message);
-                    }
-                    const data = {
-                        id: reply.data.id,
-                        displayName: reply.data.displayName,
-                        username: reply.data.username,
-                        picture: reply.data.picture,
+                const data = {
+                    displayName: displayName ? displayName : undefined,
+                };
+                const updateResponse = await api.patch(`/users/${user.id}`, data);
+
+                if (updateResponse.status === 200) {
+                    const updatedUser = {
+                        id: updateResponse.data.id,
+                        displayName: updateResponse.data.displayName,
+                        username: updateResponse.data.username,
+                        picture: updateResponse.data.picture,
                     };
-                    dispatch(updateCurrentUser(data));
-                });
+                    dispatch(updateCurrentUser(updatedUser));
+                    toast.success('Profile updated successfully!');
+                } else {
+                    toast.error('Failed to update profile');
+                }
             } catch (error) {
-                if (error.response.data.code === 400) {
+                if (error.response && error.response.data && error.response.data.code === 400) {
                     toast.error('Display name is not blank');
+                } else {
+                    toast.error('An error occurred');
                 }
             }
         }
     };
+
     return (
         <>
             {user?.id ? (

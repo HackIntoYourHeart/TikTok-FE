@@ -35,32 +35,35 @@ const Upload = () => {
                 setLoading(true);
                 const formData = new FormData();
                 formData.append('video', selectedVideo);
-                // Gọi API hoặc thực hiện các thao tác cần thiết tại đây
-                await api({
-                    method: 'post',
-                    url: `/upload/upload-video`,
-                    data: formData,
-                }).then(async (res) => {
+
+                const uploadResponse = await api.post('/upload/upload-video', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                if (uploadResponse.status === 200) {
                     const data = {
                         title: title,
                         description: description,
-                        url: res.data.videoUrl,
+                        url: uploadResponse.data.videoUrl,
                         owner: user.id,
                     };
-                    if (res.status === 200) {
-                        await api.post({
-                            url: `/video`,
-                            data: data,
-                        });
-                        setLoading(false);
-                        navigate('/');
+
+                    const videoResponse = await api.post('/video', data);
+
+                    if (videoResponse.status === 200) {
                         toast.success('Upload video successfully!');
+                        navigate('/');
                     }
-                });
+                }
+                setLoading(false);
             } catch (error) {
                 toast.error('Upload video failed!');
                 setLoading(false);
             }
+        } else {
+            toast.error('Please fill in all fields');
         }
     };
 

@@ -1,0 +1,42 @@
+.container {
+    background-color: rgb(237, 165, 182);
+    border-radius: 6px;
+    color: white;
+    width: 200px;
+    .wrapper {
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        p {
+            padding: 5px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.5;
+            max-height: 3em;
+        }
+        .wrapperButton {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            .button {
+                display: flex !important;
+                width: 150px;
+                height: 30px;
+                justify-content: center;
+                position: relative;
+                margin: auto;
+                border-radius: 4px;
+                span {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    -ms-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+    }
+}

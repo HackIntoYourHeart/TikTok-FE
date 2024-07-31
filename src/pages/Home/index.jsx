@@ -8,10 +8,12 @@ import api from '~/api/api';
 import clsx from 'clsx';
 import Comment from './Comment/Comment';
 import Video from './Video/Video';
+import Lottie from 'lottie-react';
+import robot from './Anims/robot.json';
 
 const Home = () => {
     const user = useSelector((state) => state.user);
-    const [userVideos, setUserVideos] = useState();
+    const [userVideos, setUserVideos] = useState([]);
     const [listUser, setListUser] = useState();
     const { videoSearch } = useSelector((state) => state.video);
     const [playingIndex, setPlayingIndex] = useState(null);
@@ -93,11 +95,7 @@ const Home = () => {
     ];
 
     const likeVideoRequest = async (id, userId) => {
-        api
-            .patch(
-                `/video/req-reaction/${id}`,
-                { userId },
-            )
+        api.patch(`/video/req-reaction/${id}`, { userId })
             .then((response) => {
                 if (response.status === 200) {
                     getVideos();
@@ -155,6 +153,7 @@ const Home = () => {
 
     return (
         <div className={styles.wrapper}>
+            <div>{user.displayName.length === 0 && <Lottie animationData={robot} loop={true} />}</div>
             <div className={styles.videoList}>
                 {userVideos?.map((video, index) => (
                     <div className={styles.content}>
